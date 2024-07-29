@@ -178,7 +178,7 @@ async function swapForVolume(tokenAddr, sol_per_order) {
     "sell",
     tokenAddr,
     -1,
-    100,
+    1,
     wallet,
     "volume"
   );
@@ -305,7 +305,7 @@ async function swap(
       inputToken,
       new BN(amountOfSol.mul(10 ** inputToken.decimals).toFixed(0))
     );
-    const slippage = new Percent(3, 100);
+    const slippage = new Percent(1, 100);
     const input = {
       outputToken,
       targetPool,
@@ -351,7 +351,7 @@ async function swap(
     );
     const percentage = sell_PercentageOfToken / 100;
     const amount = new Decimal(percentage * balnaceOfToken);
-    const slippage = new Percent(3, 100);
+    const slippage = new Percent(1, 100);
     const inputTokenAmount = new TokenAmount(
       inputToken,
       new BN(amount.mul(10 ** inputToken.decimals).toFixed(0))
