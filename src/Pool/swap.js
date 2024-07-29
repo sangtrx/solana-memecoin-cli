@@ -168,7 +168,7 @@ async function swapForVolume(tokenAddr, sol_per_order) {
     "sell",
     tokenAddr,
     -1,
-    2,
+    1.5,
     wallet,
     "volume"
   );
@@ -178,9 +178,12 @@ async function swapForVolume(tokenAddr, sol_per_order) {
     recentBlockhash: latestBlockhash.blockhash,
     instructions: [
       ComputeBudgetProgram.setComputeUnitLimit({
-        units: 700000,
+        units: 7000000,
       }),
       ...sell_instruction.instructions,
+      ...buy_instruction.instructions,
+      ...buy_instruction.instructions,
+      ...buy_instruction.instructions,
       ...buy_instruction.instructions,
       ...buy_instruction.instructions,
       ...buy_instruction.instructions,
