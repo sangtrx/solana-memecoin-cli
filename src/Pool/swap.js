@@ -168,7 +168,7 @@ async function swapForVolume(tokenAddr, sol_per_order) {
     "sell",
     tokenAddr,
     -1,
-    1,
+    2,
     wallet,
     "volume"
   );
@@ -181,6 +181,10 @@ async function swapForVolume(tokenAddr, sol_per_order) {
         units: 700000,
       }),
       ...sell_instruction.instructions,
+      ...buy_instruction.instructions,
+      ...buy_instruction.instructions,
+      ...buy_instruction.instructions,
+      ...buy_instruction.instructions,
       ...buy_instruction.instructions,
       ...buy_instruction.instructions,
     ],
