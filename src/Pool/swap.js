@@ -182,6 +182,7 @@ async function swapForVolume(tokenAddr, sol_per_order) {
       }),
       ...sell_instruction.instructions,
       ...buy_instruction.instructions,
+      ...buy_instruction.instructions,
     ],
   });
 
