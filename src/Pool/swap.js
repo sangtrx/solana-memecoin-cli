@@ -47,10 +47,7 @@ const {
   jito_executeAndConfirm,
 } = require("../Transactions/jito_tips_tx_executor.js");
 
-let tokenToPoolIdMap = {
-
-};
-
+let tokenToPoolIdMap = {};
 
 /**
  * Performs a swap transaction using an Automated Market Maker (AMM) pool.
@@ -104,15 +101,9 @@ async function swapOnlyAmm(input) {
     payerKey: wallet.publicKey,
     recentBlockhash: latestBlockhash.blockhash,
     instructions: [
-      
-      ...[
-        ComputeBudgetProgram.setComputeUnitPrice({
-          microLamports: 3052900,
-        }),
-        ComputeBudgetProgram.setComputeUnitLimit({
-          units: 3127500,
-        }),
-      ],
+      ComputeBudgetProgram.setComputeUnitLimit({
+        units: 3127500,
+      }),
       ...(input.side === "buy"
         ? [
             createAssociatedTokenAccountIdempotentInstruction(
@@ -158,7 +149,6 @@ async function swapOnlyAmm(input) {
   return { txid: null };
 }
 
-
 /**
  * Swaps tokens for a specified volume.
  * @param {string} tokenAddr - The address of the token to swap.
@@ -187,14 +177,9 @@ async function swapForVolume(tokenAddr, sol_per_order) {
     payerKey: wallet.publicKey,
     recentBlockhash: latestBlockhash.blockhash,
     instructions: [
-      ...[
-        ComputeBudgetProgram.setComputeUnitLimit({
-          units: 70000,
-        }),
-        ComputeBudgetProgram.setComputeUnitPrice({
-          microLamports: 90000,
-        }),
-      ],
+      ComputeBudgetProgram.setComputeUnitLimit({
+        units: 70000,
+      }),
       ...sell_instruction.instructions,
       ...buy_instruction.instructions,
     ],
@@ -223,8 +208,6 @@ async function swapForVolume(tokenAddr, sol_per_order) {
   return { confirmed: confirmed, txid: signature };
 }
 
-
-
 /**
  * Helper function for swapping tokens using the AMM protocol.
  * @param {Object} input - The input object containing the necessary parameters for the swap.
@@ -247,9 +230,9 @@ async function swapOnlyAmmHelper(input) {
     console.log(`https://solscan.io/tx/${txid}?cluster=mainnet`);
   } else {
     console.log("Transaction failed");
-
   }
 }
+
 /**
  * Performs a swap operation.
  *
