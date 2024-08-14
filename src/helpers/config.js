@@ -26,6 +26,9 @@ function loadKeypairFromFile(filename) {
 const jito_fee = process.env.JITO_FEE; // 0.00009 SOL
 const shyft_api_key = process.env.SHYFT_API_KEY; // your shyft api key
 const wallet = Keypair.fromSecretKey(bs58.decode(process.env.PRIVATE_KEY)); // your wallet
+const wallet1 = Keypair.fromSecretKey(bs58.decode(process.env.PRIVATE_KEY1)); // your wallet
+const wallet2 = Keypair.fromSecretKey(bs58.decode(process.env.PRIVATE_KEY2)); // your wallet
+
 const dev_endpoint = process.env.DEVNET_ENDPOINT; // devnet endpoint, if you use devnet
 const main_endpoint = process.env.MAINNET_ENDPOINT; // mainnet endpoint
 // const second_main_endpoint = process.env.SECOND_MAINNET_ENDPOINT; // if you use copy trade program, second mainnet endpoint
