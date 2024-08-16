@@ -76,6 +76,8 @@ const DEFAULT_TOKEN = {
 
 module.exports = {
   wallet,
+  wallet1,
+  wallet2,
   dev_connection,
   dev_endpoint,
   main_endpoint,
