@@ -185,22 +185,22 @@ const MPL_TOKEN_METADATA_PROGRAM_ID =
       commitment
     );
 
-    // let buyResults = await sendTx(
-    //   this.connection,
-    //   buyTx,
-    //   buyer.publicKey,
-    //   [buyer],
-    //   priorityFees,
-    //   commitment,
-    //   finality
-    // );
-    let buyResults = await sendTxToJito(
+    let buyResults = await sendTx(
       this.connection,
       buyTx,
-      buyer,
+      buyer.publicKey,
       [buyer],
-      0.00001
-    )
+      priorityFees,
+      commitment,
+      finality
+    );
+    // let buyResults = await sendTxToJito(
+    //   this.connection,
+    //   buyTx,
+    //   buyer,
+    //   [buyer],
+    //   0.00001
+    // )
     return buyResults;
   }
 
@@ -221,22 +221,22 @@ const MPL_TOKEN_METADATA_PROGRAM_ID =
       commitment
     );
 
-    // let sellResults = await sendTx(
-    //   this.connection,
-    //   sellTx,
-    //   seller.publicKey,
-    //   [seller],
-    //   priorityFees,
-    //   commitment,
-    //   finality
-    // );
-    let sellResults = await sendTxToJito(
+    let sellResults = await sendTx(
       this.connection,
       sellTx,
-      seller,
+      seller.publicKey,
       [seller],
-      0.00001
-    )
+      priorityFees,
+      commitment,
+      finality
+    );
+    // let sellResults = await sendTxToJito(
+    //   this.connection,
+    //   sellTx,
+    //   seller,
+    //   [seller],
+    //   0.00001
+    // )
     return sellResults;
   }
 
