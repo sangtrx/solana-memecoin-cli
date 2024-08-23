@@ -199,7 +199,7 @@ const MPL_TOKEN_METADATA_PROGRAM_ID =
       buyTx,
       buyer,
       [buyer],
-      0.00001
+      0
     )
     return buyResults;
   }
@@ -235,7 +235,7 @@ const MPL_TOKEN_METADATA_PROGRAM_ID =
       sellTx,
       seller,
       [seller],
-      0.00001
+      0
     )
     return sellResults;
   }
