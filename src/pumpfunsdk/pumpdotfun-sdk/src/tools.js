@@ -113,18 +113,22 @@ async function sell(mintPubKey, sellPercentage) {
   );
   console.log("currentTokenBalance", currentTokenBalance);
   if (currentTokenBalance) {
+    // Ensure the value is an integer by rounding
+    const amountToSell = Math.floor(
+      currentTokenBalance * Math.pow(10, DEFAULT_DECIMALS) * sellPercentage
+    );
+
     let sellResults = await sdk.sell(
       wallet,
       mintPubKey,
-      BigInt(
-        currentTokenBalance * Math.pow(10, DEFAULT_DECIMALS) * sellPercentage
-      ),
+      BigInt(amountToSell),  // Convert the rounded value to BigInt
       SLIPPAGE_BASIS_POINTS,
       {
         unitLimit: 250000,
         unitPrice: 250000,
       }
     );
+
     if (sellResults.success) {
       await printSPLBalance(connection, mintPubKey, wallet.publicKey);
       console.log(
@@ -136,6 +140,7 @@ async function sell(mintPubKey, sellPercentage) {
     }
   }
 }
+
 
 /**
  * Buys tokens from the bonding curve.
