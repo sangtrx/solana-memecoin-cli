@@ -107,17 +107,17 @@ async function sendTx(
 ){
   let newTx = new Transaction();
 
-  if (priorityFees) {
-    const modifyComputeUnits = ComputeBudgetProgram.setComputeUnitLimit({
-      units: priorityFees.unitLimit,
-    });
+  // if (priorityFees) {
+  //   const modifyComputeUnits = ComputeBudgetProgram.setComputeUnitLimit({
+  //     units: priorityFees.unitLimit,
+  //   });
 
-    const addPriorityFee = ComputeBudgetProgram.setComputeUnitPrice({
-      microLamports: priorityFees.unitPrice,
-    });
-    newTx.add(modifyComputeUnits);
-    newTx.add(addPriorityFee);
-  }
+  //   const addPriorityFee = ComputeBudgetProgram.setComputeUnitPrice({
+  //     microLamports: priorityFees.unitPrice,
+  //   });
+  //   newTx.add(modifyComputeUnits);
+  //   newTx.add(addPriorityFee);
+  // }
 
   newTx.add(tx);
   let versionedTx = await buildVersionedTx(connection, payer, newTx, commitment);
