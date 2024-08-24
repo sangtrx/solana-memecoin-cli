@@ -51,84 +51,82 @@ const MPL_TOKEN_METADATA_PROGRAM_ID =
   }
 
   async bundleBuyAndSell(
-    trader, // The user performing the buy and sell
-    mint, // The mint of the token
-    buyAmountSol, // Amount of SOL to buy
-    sellTokenAmount, // Amount of tokens to sell
+    trader,             // The user performing the buy and sell
+    mint,               // The mint of the token
+    buyAmountSol,      // Amount of SOL to buy
+    sellTokenAmount,   // Amount of tokens to sell
     slippageBasisPoints = 500n, // Slippage tolerance
-    priorityFees, // Fees for priority transactions
+    priorityFees,      // Fees for priority transactions
     commitment = DEFAULT_COMMITMENT, // Commitment level for the transaction
-    finality = DEFAULT_FINALITY // Finality of the transaction
+    finality = DEFAULT_FINALITY      // Finality of the transaction
   ) {
-    // Create a new transaction object
+    // Step 1: Initialize any necessary setup (e.g., token metadata creation)
+    // If no setup is required for bundling buy and sell, this step can be omitted
+  
+    // Step 2: Initialize a new transaction object
     let transaction = new Transaction();
-
-    // Fetch the global account for fee recipient and buy price calculation
+  
+    // Step 3: Fetch the global account for fee recipient and price calculations
     const globalAccount = await this.getGlobalAccount(commitment);
-
-    // Calculate the buy amount and the amount with slippage
+  
+    // Step 4: Calculate the buy amount and apply slippage tolerance
     const buyAmount = globalAccount.getInitialBuyPrice(buyAmountSol);
     const buyAmountWithSlippage = calculateWithSlippageBuy(
       buyAmountSol,
       slippageBasisPoints
     );
-
-    // Get the instructions for the buy operation
-    const buyTx = await this.getBuyInstructions(
-      trader.publicKey,
-      mint.publicKey,
-      globalAccount.feeRecipient,
-      buyAmount,
-      buyAmountWithSlippage
+  
+    // Step 5: Generate buy instructions and add them to the transaction
+    const buyInstructions = await this.getBuyInstructions(
+      trader.publicKey,          // Trader's public key
+      mint.publicKey,            // Token mint address
+      globalAccount.feeRecipient, // Fee recipient address
+      buyAmount,                // Calculated buy amount
+      buyAmountWithSlippage     // Buy amount after slippage adjustment
     );
-
-    // Add the buy instructions to the transaction
-    transaction.add(buyTx);
-
-    // Fetch the bonding curve account to calculate sell price
+    transaction.add(buyInstructions);
+  
+    // Step 6: Fetch the bonding curve account to determine sell price
     const bondingCurveAccount = await this.getBondingCurveAccount(
       mint,
       commitment
     );
-
-    // Calculate the minimum SOL output from the sell operation
+  
+    // Step 7: Calculate the minimum SOL output from the sell operation and apply slippage
     const minSolOutput = bondingCurveAccount.getSellPrice(
       sellTokenAmount,
       globalAccount.feeBasisPoints
     );
-
-    // Calculate the sell amount with slippage
     const sellAmountWithSlippage = calculateWithSlippageSell(
       minSolOutput,
       slippageBasisPoints
     );
-
-    // Get the instructions for the sell operation
-    const sellTx = await this.getSellInstructions(
-      trader.publicKey,
-      mint.publicKey,
-      globalAccount.feeRecipient,
-      sellTokenAmount,
-      sellAmountWithSlippage
+  
+    // Step 8: Generate sell instructions and add them to the transaction
+    const sellInstructions = await this.getSellInstructions(
+      trader.publicKey,          // Trader's public key
+      mint.publicKey,            // Token mint address
+      globalAccount.feeRecipient, // Fee recipient address
+      sellTokenAmount,          // Amount of tokens to sell
+      sellAmountWithSlippage    // Sell amount after slippage adjustment
     );
-
-    // Add the sell instructions to the transaction
-    transaction.add(sellTx);
-
-    // Send the transaction with both buy and sell operations
+    transaction.add(sellInstructions);
+  
+    // Step 9: Send the transaction containing both buy and sell operations
     const result = await sendTx(
-      this.connection,
-      transaction,
-      trader.publicKey,
-      [trader],
-      priorityFees,
-      commitment,
-      finality
+      this.connection,        // Connection to the Solana network
+      transaction,            // Transaction object with all instructions
+      trader.publicKey,      // Signer public key
+      [trader],              // Array of signers (in this case, just the trader)
+      priorityFees,          // Priority fees for the transaction
+      commitment,            // Commitment level
+      finality               // Desired finality
     );
-
-    // Return the result of the transaction
+  
+    // Step 10: Return the result of the transaction
     return result;
   }
+
   async bundleBuys(    creator,
     mint,
     createTokenMetadata,
